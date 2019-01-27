@@ -82,16 +82,19 @@ class StudentsDataGateway
         return $query->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'Student');
     }
 
-    public function find(){
+    public function count(){
         $query = $this->db->query("SELECT COUNT(*) FROM students");
         $count = $query->fetch(PDO::FETCH_ASSOC);
         return (int)$count['COUNT(*)'];
     }
 
-    public function get(){
-        $query = $this->db->prepare("SELECT COUNT(*) FROM students");
-        $count = $query->fetch(PDO::FETCH_ASSOC);
-        return (int)$count['COUNT(*)'];
+    public function find($string){
+        $string = preg_replace('/\s/',"%",$string);
+        $query = $this->db->prepare("SELECT name, surname, gender, group_number, email, points, birth_date, residence  
+        FROM students WHERE concat(name,surname,group_number) LIKE ?");
+        $query->bindValue(1, '%'.$string.'%', PDO::PARAM_STR);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'Student');
     }
 
 }

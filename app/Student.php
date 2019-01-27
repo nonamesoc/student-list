@@ -11,20 +11,20 @@ class Student
     public $name;
     public $surname;
     public $gender;
-    public $group;
+    public $group_number;
     public $email;
     public $points;
-    public $year;
+    public $birth_date;
     public $residence;
 
     public function __construct( $studentData =[
         'name'=>'',
         'surname'=>'',
         'gender'=>'',
-        'group'=>'',
+        'group_number'=>'',
         'email'=>'',
         'points'=>'',
-        'year'=>'',
+        'birth_date'=>'',
         'residence'=>''])
     {
         $this->fillForm($studentData);
@@ -36,10 +36,10 @@ class Student
             'name'=>'',
             'surname'=>'',
             'gender'=>'',
-            'group'=>'',
+            'group_number'=>'',
             'email'=>'',
             'points'=>'',
-            'year'=>'',
+            'birth_date'=>'',
             'residence'=>''
         ];
 

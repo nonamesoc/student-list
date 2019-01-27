@@ -18,7 +18,7 @@
 <body>
     <div>
         <p>Список студентов</p>
-        <form action="studentlist.php">
+        <form action="">
             <label for="search">
                 Поиск :
                 <input type="search" id="search" name="search">
@@ -38,12 +38,16 @@
             <tr>
                 <td><?= $student->name ?></td>
                 <td><?= $student->surname ?></td>
-                <td><?= $student->group ?></td>
+                <td><?= $student->group_number ?></td>
                 <td><?= $student->points ?></td>
             </tr>
             <?php endforeach; ?>
-            Пагинация
         </table>
+        <?php if($pages >1) {
+            for ($i = 1; $i <= $pages; $i++):?>
+                <a href="?page=<?=$i?>"><?=$i?></a>
+            <?php endfor;
+        }?>
     </div>
 </body>
 </html>

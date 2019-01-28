@@ -69,31 +69,48 @@ class StudentsDataGateway
         return $query->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getStudentList($page) {
-        if(isset($page)) {
-            $query = $this->db->prepare("SELECT name, surname, gender, group_number, email, points, birth_date, residence 
-            FROM students LIMIT 50 OFFSET :offset");
-            $query->bindValue(':offset', ($page-1) * 50, PDO::PARAM_INT);
-        } else{
-            $query = $this->db->prepare("SELECT name, surname, gender, group_number, email, points, birth_date, residence 
-            FROM students");
+    public function getStudentList($sort = null, $page = null) {
+        $sql = "SELECT name, surname, gender, group_number, email, points, birth_date, residence  
+            FROM students";
+        $sql .= ($sort != null) ? " ORDER BY ".$sort['column']." ".mb_strtoupper($sort['type']) : "";
+        $sql .= ($page != null) ? " LIMIT 50 OFFSET :offset" : "";
+
+        $query = $this->db->prepare($sql);
+        if($page != null) {
+            $query->bindValue(':offset', ($page - 1) * 50, PDO::PARAM_INT);
         }
         $query->execute();
         return $query->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'Student');
     }
 
-    public function count(){
-        $query = $this->db->query("SELECT COUNT(*) FROM students");
+    public function count($search = null){
+        if($search == null) {
+            $query = $this->db->query("SELECT COUNT(*) FROM students");
+        } else{
+            $string = preg_replace('/\s/',"%",$search);
+            $query = $this->db->prepare("SELECT COUNT(*) FROM students WHERE concat(name,surname,group_number) LIKE ?");
+            $query->bindValue(1, '%'.$string.'%', PDO::PARAM_STR);
+            $query->execute();
+        }
         $count = $query->fetch(PDO::FETCH_ASSOC);
         return (int)$count['COUNT(*)'];
     }
 
-    public function find($string){
+    public function find($string, $sort = null, $page = null){
         $string = preg_replace('/\s/',"%",$string);
-        $query = $this->db->prepare("SELECT name, surname, gender, group_number, email, points, birth_date, residence  
-        FROM students WHERE concat(name,surname,group_number) LIKE ?");
-        $query->bindValue(1, '%'.$string.'%', PDO::PARAM_STR);
+
+        $sql = "SELECT name, surname, gender, group_number, email, points, birth_date, residence  
+            FROM students WHERE concat(name,surname,group_number) LIKE :string";
+        $sql .= ($sort != null) ? " ORDER BY ".$sort['column']." ".mb_strtoupper($sort['type']) : "";
+        $sql .= ($page != null) ? " LIMIT 50 OFFSET :offset" : "";
+
+        $query = $this->db->prepare($sql);
+        $query->bindValue(':string', '%'.$string.'%', PDO::PARAM_STR);
+        if($page != null) {
+            $query->bindValue(':offset', ($page - 1) * 50, PDO::PARAM_INT);
+        }
         $query->execute();
+
         return $query->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'Student');
     }
 

@@ -29,23 +29,23 @@
     <div>
         <table>
             <tr>
-                <th>Имя</th>
-                <th>Фамилия</th>
-                <th>Номер группы</th>
-                <th>Баллов</th>
+                <th><a href="<?=$linker->sort('name')?>">Имя</a></th>
+                <th><a href="<?=$linker->sort('surname')?>">Фамилия</a></th>
+                <th><a href="<?=$linker->sort('group_number')?>">Номер группы</a></th>
+                <th><a href="<?=$linker->sort('points')?>">Баллов</a></th>
             </tr>
             <?php foreach($studentList as $student): ?>
             <tr>
-                <td><?= $student->name ?></td>
-                <td><?= $student->surname ?></td>
-                <td><?= $student->group_number ?></td>
-                <td><?= $student->points ?></td>
+                <td><?=htmlspecialchars($student->name)?></td>
+                <td><?=htmlspecialchars($student->surname)?></td>
+                <td><?=htmlspecialchars($student->group_number)?></td>
+                <td><?=htmlspecialchars($student->points)?></td>
             </tr>
             <?php endforeach; ?>
         </table>
-        <?php if($pages >1) {
-            for ($i = 1; $i <= $pages; $i++):?>
-                <a href="?page=<?=$i?>"><?=$i?></a>
+        <?php if($pager->getTotalPages() >1) {
+            for ($i = 1; $i <= $pager->getTotalPages(); $i++):?>
+                <a href="<?=$linker->page($i)?>"><?=$i?></a>
             <?php endfor;
         }?>
     </div>

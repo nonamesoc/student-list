@@ -6,7 +6,7 @@
  * Time: 16:57
  */
 require_once('..\app\db.php');
-require_once('..\app\Validator.php');
+require_once('..\app\StudentValidator.php');
 require_once('..\app\Student.php');
 require_once('..\app\StudentsDataGateway.php');
 
@@ -19,7 +19,7 @@ if (empty($_COOKIE['token'] )) {
 }
 
 
-$validator = new Validator();
+$validator = new StudentValidator();
 $student = new Student();
 $StudentsDataGateway = new StudentsDataGateway($DB);
 

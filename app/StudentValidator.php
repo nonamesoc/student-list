@@ -6,13 +6,8 @@
  * Time: 17:31
  */
 
-class Validator
+class StudentValidator
 {
-
-    public function __construct()
-    {
-
-    }
 
     public function validate($values, $StudentsDataGateway, $studentId = null){
         $errors = [];

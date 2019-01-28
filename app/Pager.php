@@ -8,5 +8,17 @@
 
 class Pager
 {
+    public $totalRecords;
+    public $recordsPerPage;
+
+    public function __construct($totalRecords,$recordsPerPage = 50){
+        $this->totalRecords = $totalRecords;
+        $this->recordsPerPage = $recordsPerPage;
+    }
+
+    public function getTotalPages(){
+        $totalPages = ceil($this->totalRecords/$this->recordsPerPage);
+        return $totalPages;
+    }
 
 }

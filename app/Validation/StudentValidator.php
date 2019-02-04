@@ -6,13 +6,15 @@
  * Time: 17:31
  */
 
+namespace StudentList\Validation;
+
 class StudentValidator
 {
 
-    public function validate($values, $StudentsDataGateway, $studentId = null){
+    public function validate($values, $StudentsDataGateway, $login = null){
         $errors = [];
         foreach ($values as $key => $val){
-            if(empty($val)){
+            if(empty($val) && $key != 'password'){
                 $errors[$key] = 'Заполните поле';
                 continue;
             }
@@ -41,9 +43,8 @@ class StudentValidator
             }
             if($key == 'email'){
                 (!filter_var($val,FILTER_VALIDATE_EMAIL)) ? $errors[$key] = 'Некорректный email' : null;
-                if( $studentId != null){
-                    $currentEmail = $StudentsDataGateway->issetEmailById($studentId);
-                    if ($currentEmail['email'] == $val){
+                if( $login != null){
+                    if ($login == $val){
                         continue;
                     }
                 }

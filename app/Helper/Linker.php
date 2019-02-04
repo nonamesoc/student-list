@@ -6,6 +6,8 @@
  * Time: 12:43
  */
 
+namespace StudentList\Helper;
+
 class Linker
 {
     public function page($pageNumber){

@@ -18,7 +18,6 @@
 <body>
     <div>
         <form action="register.php" method="post">
-            <input type="hidden" name="token" value="<?= htmlspecialchars($token, ENT_QUOTES) ?>">
             <label for="name">Имя</label>
             <input type="text" name="name" id="name" value="<?=htmlspecialchars($student->name) ?>" required>
             <?=$errors['name']?>
@@ -53,6 +52,7 @@
             <input type="radio" name="residence" value="resident" id="radio_resident"<?=($student->residence == 'resident') ?  'checked' : ''?> required><label for="radio_resident">Местный</label></p>
             <?=$errors['residence']?>
             <br>
+            <input type="hidden" name="token" value="<?= htmlspecialchars($token, ENT_QUOTES) ?>">
             <input type="submit" value="Отправить">
         </form>
     </div>

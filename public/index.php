@@ -5,15 +5,19 @@
  * Date: 03.01.2019
  * Time: 18:27
  */
+error_reporting(-1);
 if($_REQUEST['notify']=='registered'){
     echo 'Вы успешно зарегистрированы.';
 }
-require_once('..\app\db.php');
-require_once('..\app\StudentsDataGateway.php');
-require_once('..\app\Student.php');
-require_once('..\app\Pager.php');
-require_once('..\app\Linker.php');
-$StudentsDataGateway = new StudentsDataGateway($DB);
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../app/Database/db.php';
+//use StudentList\Database\db;
+use StudentList\Entities\Student;
+use StudentList\Database\StudentsDataGateway;
+use StudentList\Helper\Pager;
+use StudentList\Helper\Linker;
+
+$StudentsDataGateway = new StudentsDataGateway($db);
 $studentList = [];
 
 $page = array_key_exists('page',$_REQUEST) && $_REQUEST['page']>0 ?
